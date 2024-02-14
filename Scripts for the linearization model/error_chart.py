@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-def generate_plot(ADC, grams, volt_in, resistor, max_bits):
+def generate_plot(ADC, grams, volt_in, resistor, max_bits, name):
     # Generating data
     voltage_aoc = np.array(ADC) * (volt_in / max_bits)
     sensor = (volt_in * resistor) / voltage_aoc - resistor
@@ -31,7 +31,7 @@ def generate_plot(ADC, grams, volt_in, resistor, max_bits):
 
     plt.bar(grams, difference, alpha=1, color=colors, width=40, label='Difference',zorder=2)
 
-    plt.title('Difference between real force and predicted force for RP-C7.6-LT')
+    plt.title(f'Difference between real force and predicted force for {name}')
     plt.xlabel('Force [g]')
     plt.ylabel('Difference [g]')
 
@@ -63,9 +63,11 @@ def generate_plot(ADC, grams, volt_in, resistor, max_bits):
 # Test data
 grams_small_31 = [30, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
 ADC_small_31 = [300, 530, 890, 1110, 1350, 1450, 1510, 1620, 1650, 1700, 1760, 1830, 1910, 1950, 1990, 2020]
+name_small = "RP-C7.6-LT"
 
 grams_big_11 = [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
 ADC_big_11 = [210, 431, 559, 851, 1119, 1339, 1453, 1589, 1685, 1829, 1917, 1957, 2007, 2037, 2100]
+name_big = "RP-C18.3-ST"
 
 # Values applied to stm32
 volt_in = 2.95
@@ -74,5 +76,5 @@ resistor_big = 2200
 max_bits = 4095
 
 # Generating plots and calculations
-predicted_force_small = generate_plot(ADC_small_31, grams_small_31, volt_in, resistor_small, max_bits)
-predicted_force_big = generate_plot(ADC_big_11, grams_big_11, volt_in, resistor_big, max_bits)
+predicted_force_small = generate_plot(ADC_small_31, grams_small_31, volt_in, resistor_small, max_bits, name_small)
+predicted_force_big = generate_plot(ADC_big_11, grams_big_11, volt_in, resistor_big, max_bits, name_big)
